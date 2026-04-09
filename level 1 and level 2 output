@@ -1,0 +1,48 @@
+========================================
+ LEVEL 2 DATA ANALYSIS
+========================================
+
+--- Task 1: Restaurant Ratings ---
+Saved ratings histogram as 'level2_ratings_distribution.png'
+Most common rating range: 3-4
+Average number of votes received by restaurants: 156.91
+
+--- Task 2: Cuisine Combination ---
+Most common cuisine combination: 'North Indian' with 936 occurrences.
+
+Average rating for the top 10 most common cuisine combinations:
+Cuisines
+Cafe                              2.890970
+North Indian, Mughlai             2.888623
+North Indian, Mughlai, Chinese    2.568528
+North Indian, Chinese             2.421722
+Bakery, Desserts                  2.317647
+Street Food                       2.161745
+Fast Food                         2.118362
+Chinese                           2.042090
+Bakery                            1.924312
+North Indian                      1.672329
+Name: Aggregate rating, dtype: float64
+
+--- Task 3: Geographic Analysis ---
+Saved geographic plot as 'level2_geographic_distribution.png'
+Plotted 9052 valid restaurant locations out of 9551 total.
+
+--- Task 4: Restaurant Chains ---
+Identified 734 restaurant chains (restaurants with >1 location).
+
+Top 5 Restaurant Chains by number of outlets:
+Restaurant Name
+Cafe Coffee Day     83
+Domino's Pizza      79
+Subway              63
+Green Chick Chop    51
+McDonald's          48
+Name: count, dtype: int64
+
+Metrics for Top 5 Chains:
+- Cafe Coffee Day: 83 outlets | Avg Rating: 2.42 | Total Votes: 2428
+- Domino's Pizza: 79 outlets | Avg Rating: 2.74 | Total Votes: 6643
+- Subway: 63 outlets | Avg Rating: 2.91 | Total Votes: 6124
+- Green Chick Chop: 51 outlets | Avg Rating: 2.67 | Total Votes: 964
+- McDonald's: 48 outlets | Avg Rating: 3.34 | Total Votes: 5291
