@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cognifyz Technologies Data Analysis Internship - Interactive Restaurant Dataset Dashboard covering Level 1, 2 & 3 tasks.">
+  <title>Cognifyz Data Analysis | Restaurant Insights Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loader" id="loaderIcon"></div>
+    <div class="loading-text" id="loadingText">Analyzing restaurant data...</div>
+    <div id="fileFallback" style="display: none; text-align: center; margin-top: 20px;">
+      <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); padding: 15px; border-radius: 8px; margin-bottom: 20px; max-width: 450px;">
+        <h3 style="color: #ef4444; margin-top: 0; margin-bottom: 8px; font-size: 16px;">Local File Loading Prevented</h3>
+        <p style="color: #cbd5e1; margin: 0; font-size: 14px; line-height: 1.5;">Your browser blocked automatic loading of the local CSV file due to security policies. To view the dashboard without a web server, simply select the <b>dataset.csv</b> file manually below.</p>
+      </div>
+      <label for="fallbackFile" style="background: #3b82f6; color: white; padding: 10px 20px; border-radius: 6px; font-weight: 500; cursor: pointer; display: inline-block; transition: background 0.2s;">
+        📁 Select dataset.csv
+      </label>
+      <input type="file" id="fallbackFile" accept=".csv" style="display: none;">
+    </div>
+  </div>
+
+  <!-- ═══════════ HERO SECTION ═══════════ -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        COGNIFYZ TECHNOLOGIES · DATA ANALYSIS INTERNSHIP
+      </div>
+      <h1>Restaurant Insights <span>Dashboard</span></h1>
+      <p>A premium analytical showcase covering Level 1, 2, and 3 tasks — from cuisine distribution to advanced consumer behavior and geographic patterns.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="value" id="statTotal">—</div>
+          <div class="label">Restaurants</div>
+        </div>
+        <div class="hero-stat">
+          <div class="value" id="statCities">—</div>
+          <div class="label">Cities</div>
+        </div>
+        <div class="hero-stat">
+          <div class="value" id="statCuisines">—</div>
+          <div class="label">Cuisines</div>
+        </div>
+        <div class="hero-stat">
+          <div class="value" id="statAvgRating">—</div>
+          <div class="label">Avg Rating</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════ NAVIGATION ═══════════ -->
+  <nav class="nav-container" id="navContainer">
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-level="level1">LEVEL 1: Fundamentals</button>
+      <button class="nav-tab" data-level="level2">LEVEL 2: Intermediate</button>
+      <button class="nav-tab" data-level="level3">LEVEL 3: Advanced</button>
+    </div>
+  </nav>
+
+  <!-- ═══════════ MAIN CONTENT ═══════════ -->
+  <main class="main-content">
+
+    <!-- ══════════ LEVEL 1 ══════════ -->
+    <section class="level-section active" id="level1">
+      <div class="level-header">
+        <h2>Level 1 Tasks</h2>
+        <div class="task-grid">
+          
+          <!-- Task 1: Top Cuisines -->
+          <div class="task-card">
+            <h3>Task 1: Top Cuisines</h3>
+            <p class="task-goal">Determine top 3 cuisines and their market share percentage.</p>
+            <div id="l1t1-stats" class="grid-1 stats-mini"></div>
+            <div class="chart-box">
+              <canvas id="l1t1-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Task 2: City Analysis -->
+          <div class="task-card">
+            <h3>Task 2: City Analysis</h3>
+            <p class="task-goal">Identify city with most restaurants and highest average rating.</p>
+            <div id="l1t2-stats" class="grid-2 stats-mini"></div>
+            <div class="chart-box">
+              <canvas id="l1t2-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Task 3: Price Range Distribution -->
+          <div class="task-card">
+            <h3>Task 3: Price Range Distribution</h3>
+            <p class="task-goal">Visualize price range frequency and calculate percentages.</p>
+            <div id="l1t3-stats" class="price-bubble-container"></div>
+            <div class="chart-box">
+              <canvas id="l1t3-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Task 4: Online Delivery -->
+          <div class="task-card">
+            <h3>Task 4: Online Delivery</h3>
+            <p class="task-goal">Online delivery ratio and impact on restaurant ratings.</p>
+            <div id="l1t4-stats" class="grid-2 stats-mini"></div>
+            <div class="chart-box">
+              <canvas id="l1t4-chart"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ LEVEL 2 ══════════ -->
+    <section class="level-section" id="level2">
+      <div class="level-header">
+        <h2>Level 2 Tasks</h2>
+        <div class="task-grid">
+
+          <!-- Task 1: Restaurant Ratings -->
+          <div class="task-card">
+            <h3>Task 1: Restaurant Ratings</h3>
+            <p class="task-goal">Analyze rating distribution and most common star ranges.</p>
+            <div id="l2t1-stats" class="grid-2 stats-mini"></div>
+            <div class="chart-box">
+              <canvas id="l2t1-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Task 2: Cuisine Combination -->
+          <div class="task-card">
+            <h3>Task 2: Cuisine Combination</h3>
+            <p class="task-goal">Identify common cuisine pairings and their rating trends.</p>
+            <div class="chart-box">
+              <canvas id="l2t2-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Task 3: Geographic Analysis -->
+          <div class="task-card wide">
+            <h3>Task 3: Geographic Analysis</h3>
+            <p class="task-goal">Explore spatial patterns and clusters using Leaflet mapping.</p>
+            <div id="map-container" style="height: 400px; border-radius: 12px; margin-top: 15px;"></div>
+          </div>
+
+          <!-- Task 4: Restaurant Chains -->
+          <div class="task-card">
+            <h3>Task 4: Restaurant Chains</h3>
+            <p class="task-goal">Identify chains and compare their popularity and performance.</p>
+            <div class="chart-box">
+              <canvas id="l2t4-chart"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ LEVEL 3 ══════════ -->
+    <section class="level-section" id="level3">
+      <div class="level-header">
+        <h2>Level 3 Tasks</h2>
+        <div class="task-grid">
+
+          <!-- Task 1: Restaurant Reviews -->
+          <div class="task-card">
+            <h3>Task 1: Restaurant Reviews</h3>
+            <p class="task-goal">Keyword analysis and review length vs rating correlation.</p>
+            <div class="grid-2" style="gap: 10px;">
+              <div id="review-keywords" class="keyword-cloud"></div>
+              <div class="chart-box" style="height: 200px;">
+                <canvas id="l3t1-chart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Task 2: Votes Analysis -->
+          <div class="task-card">
+            <h3>Task 2: Votes Analysis</h3>
+            <p class="task-goal">Identify voting outliers and correlation with star ratings.</p>
+            <div id="l3t2-stats" class="grid-2 stats-mini"></div>
+            <div class="chart-box">
+              <canvas id="l3t2-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Task 3: Price Range vs. Services -->
+          <div class="task-card wide">
+            <h3>Task 3: Price vs Service Availability</h3>
+            <p class="task-goal">How pricing influences Delivery and Table Booking options.</p>
+            <div class="chart-box">
+              <canvas id="l3t3-chart"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

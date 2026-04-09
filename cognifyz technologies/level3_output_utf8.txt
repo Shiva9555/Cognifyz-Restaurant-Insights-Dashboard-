@@ -1,0 +1,53 @@
+﻿========================================
+ LEVEL 3 DATA ANALYSIS
+========================================
+
+--- Task 1: Restaurant Reviews ---
+Analyzing 9551 review texts...
+
+Distribution of Rating Text (Keywords):
+Rating text
+Average      3737
+Not rated    2148
+Good         2100
+Very Good    1079
+Excellent     301
+Poor          186
+Name: count, dtype: int64
+
+Average length of 'Rating text': 7.02 characters
+For single-word rating texts, length correlation isn't very meaningful, but correlation coefficient is:
+Correlation between Review Length and Rating: -0.4789
+
+--- Task 2: Votes Analysis ---
+Restaurant with highest votes:
+- Name: Toit
+- Votes: 10934
+- Rating: 4.8
+
+Restaurant with lowest votes:
+- Name: Cantinho da Gula
+- Votes: 0 (There are 1094 restaurants with 0 votes)
+- Rating: 0.0
+
+Correlation between Number of Votes and Aggregate Rating: 0.3137
+Conclusion: There is a weak positive correlation between votes and rating.
+
+--- Task 3: Price Range vs. Services ---
+Saved plots as 'level3_price_range_services.png'
+
+Percentage offering services by Price Range:
+Price Range 1:
+  - Online Delivery: 15.77%
+  - Table Booking:   0.02%
+Price Range 2:
+  - Online Delivery: 41.31%
+  - Table Booking:   7.68%
+Price Range 3:
+  - Online Delivery: 29.19%
+  - Table Booking:   45.74%
+Price Range 4:
+  - Online Delivery: 9.04%
+  - Table Booking:   46.76%
+
+Analysis Overview: As price range increases, restaurants are generally more likely to offer table bookings.
